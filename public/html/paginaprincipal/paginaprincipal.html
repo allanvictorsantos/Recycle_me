@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recycle_me - Recicle e Ganhe</title>
+    
+    <!-- Ícone do Site (Favicon) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♻️</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome (Ícones) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Swiper.js (Biblioteca do Carrossel) -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Configuração de Cores do Tailwind -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Habilita o modo escuro
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-green': '#34D399',
+                        'brand-light-green': '#A7F3D0',
+                        'brand-dark': '#1F2937',
+                        'brand-cream': '#F3EEE8',
+                        'brand-text-green': '#10B981',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Estilos Personalizados -->
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: #FDFAF6; }
+        .header-gradient { background-color: #F3EEE8; }
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .btn-glow-green:hover { box-shadow: 0 0 15px 0 rgba(52, 211, 153, 0.7); }
+
+        /* --- ESTILOS ATUALIZADOS PARA O CARROSSEL --- */
+        .swiper-container-wrapper { position: relative; width: 100%; padding-bottom: 40px; }
+        .swiper-container { border-radius: 0; }
+        @media (min-width: 768px) { .swiper-container { border-radius: 1rem; } }
+
+        .swiper-button-custom {
+            position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+            width: 48px; height: 48px; background-color: rgba(31, 41, 55, 0.5); border-radius: 9999px;
+            display: flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, 0.8);
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .swiper-button-custom:hover { background-color: rgba(31, 41, 55, 0.8); color: white; transform: translateY(-50%) scale(1.1); }
+        .swiper-button-prev-custom { left: 24px; }
+        .swiper-button-next-custom { right: 24px; }
+
+        .swiper-pagination-custom {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            text-align: center; padding: 10px 0;
+        }
+        .swiper-pagination-bullet { width: 10px; height: 10px; background-color: #d1d5db; opacity: 1; transition: all 0.3s ease; }
+        .swiper-pagination-bullet-active { background-color: #10B981 !important; width: 24px; border-radius: 8px; }
+        
+        /* Efeito de hover para os cards do clube */
+        .card-glow-green:hover { transform: translateY(-8px); box-shadow: 0 0 25px -5px rgba(52, 211, 153, 0.5); }
+        
+        /* Modo Leitura - aplicado a um wrapper para não afetar o botão de acessibilidade */
+        #page-wrapper.reading-mode { filter: brightness(90%) contrast(90%); }
+
+        /* Estilo para o link de navegação ativo */
+        .nav-link.active-link { color: #10B981; }
+        .dark .nav-link.active-link { color: #34D399; }
+        .nav-link.active-link .underline-span { width: 100%; }
+
+        /* Estilos para o Widget do Google Translate */
+        .goog-te-banner-frame.skiptranslate, .goog-te-gadget { display: none !important; } 
+        body { top: 0px !important; }
+    </style>
+</head>
+<body class="text-brand-dark dark:bg-brand-dark dark:text-gray-300">
+
+    <div id="page-wrapper" class="transition duration-300">
+        <!-- Cabeçalho -->
+        <header class="header-gradient dark:bg-gray-800 shadow-sm sticky top-0 z-50 dark:border-b dark:border-gray-700">
+            <div class="container mx-auto flex justify-between items-center p-4">
+                <a href="#inicio" class="text-xl font-extrabold tracking-tighter dark:text-white">♻️ RECYCLE_ME</a>
+                
+                <nav id="main-nav" class="hidden md:flex items-center gap-6">
+                    <a href="#clube-recycleme" class="nav-link relative group text-sm font-bold uppercase pb-2 transition-colors hover:text-brand-text-green dark:text-gray-300 dark:hover:text-brand-green">
+                        <span>O Clube</span>
+                        <span class="underline-span absolute bottom-0 left-0 w-0 h-0.5 bg-brand-text-green dark:bg-brand-green transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#como-funciona" class="nav-link relative group text-sm font-bold uppercase pb-2 transition-colors hover:text-brand-text-green dark:text-gray-300 dark:hover:text-brand-green">
+                        <span>Como Funciona</span>
+                        <span class="underline-span absolute bottom-0 left-0 w-0 h-0.5 bg-brand-text-green dark:bg-brand-green transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#o-que-reciclar" class="nav-link relative group text-sm font-bold uppercase pb-2 transition-colors hover:text-brand-text-green dark:text-gray-300 dark:hover:text-brand-green">
+                        <span>O que reciclar</span>
+                        <span class="underline-span absolute bottom-0 left-0 w-0 h-0.5 bg-brand-text-green dark:bg-brand-green transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#sobre-nos" class="nav-link relative group text-sm font-bold uppercase pb-2 transition-colors hover:text-brand-text-green dark:text-gray-300 dark:hover:text-brand-green">
+                        <span>Sobre Nós</span>
+                        <span class="underline-span absolute bottom-0 left-0 w-0 h-0.5 bg-brand-text-green dark:bg-brand-green transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <!-- NOVO MENU DE TRADUÇÃO -->
+                    <div class="relative" id="language-switcher">
+                        <button id="language-button" class="text-xl hover:text-brand-text-green transition-colors dark:text-gray-300 dark:hover:text-brand-green">
+                            <i class="fas fa-globe"></i>
+                        </button>
+                        <div id="language-menu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-lg shadow-lg py-1 z-20">
+                            <a href="javascript:void(0)" class="lang-option flex items-center gap-3 px-4 py-2 text-sm text-brand-dark dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" data-lang="pt">🇧🇷 Português</a>
+                            <a href="javascript:void(0)" class="lang-option flex items-center gap-3 px-4 py-2 text-sm text-brand-dark dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" data-lang="en">🇺🇸 English</a>
+                            <a href="javascript:void(0)" class="lang-option flex items-center gap-3 px-4 py-2 text-sm text-brand-dark dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" data-lang="es">🇪🇸 Español</a>
+                            <a href="javascript:void(0)" class="lang-option flex items-center gap-3 px-4 py-2 text-sm text-brand-dark dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" data-lang="fr">🇫🇷 Français</a>
+                        </div>
+                    </div>
+                    <!-- Widget invisível do Google -->
+                    <div id="google_translate_element" style="display: none;"></div>
+
+                    <a href="#" class="text-2xl hover:text-brand-text-green transition-colors dark:text-gray-300 dark:hover:text-brand-green"><i class="fas fa-user-circle"></i></a>
+                    <button id="mobile-menu-button" class="md:hidden text-2xl dark:text-gray-300"><i class="fas fa-bars"></i></button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden bg-brand-cream dark:bg-gray-800 pb-4">
+                <a href="#clube-recycleme" class="block text-center py-2 px-4 text-sm font-bold uppercase text-brand-dark dark:text-gray-200 hover:bg-brand-light-green dark:hover:bg-gray-700">O Clube</a>
+                <a href="#como-funciona" class="block text-center py-2 px-4 text-sm font-bold uppercase text-brand-dark dark:text-gray-200 hover:bg-brand-light-green dark:hover:bg-gray-700">Como Funciona</a>
+                <a href="#o-que-reciclar" class="block text-center py-2 px-4 text-sm font-bold uppercase text-brand-dark dark:text-gray-200 hover:bg-brand-light-green dark:hover:bg-gray-700">O que reciclar</a>
+                <a href="#sobre-nos" class="block text-center py-2 px-4 text-sm font-bold uppercase text-brand-dark dark:text-gray-200 hover:bg-brand-light-green dark:hover:bg-gray-700">Sobre Nós</a>
+            </div>
+        </header>
+
+        <!-- Corpo Principal -->
+        <main>
+            <!-- Seção Hero com Carrossel redesenhado -->
+            <section id="inicio" class="w-full mt-4 md:mt-10">
+                <div class="container mx-auto px-4 md:px-6">
+                    <div class="swiper-container-wrapper">
+                        <div class="swiper-container h-[550px] md:h-[500px] rounded-2xl overflow-hidden">
+                            <div class="swiper-wrapper">
+                                <!-- Slide 1: Banner Principal com Imagem de Fundo e Layout à Esquerda -->
+                                <div class="swiper-slide bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=1913&auto=format&fit=crop');">
+                                    <div class="bg-black bg-opacity-50 w-full h-full">
+                                        <div class="container mx-auto grid md:grid-cols-2 gap-8 items-center h-full p-6 md:p-12">
+                                            <div class="text-center md:text-left text-white fade-in-up">
+                                                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
+                                                    Transforme <span class="text-brand-green">Lixo</span> em <span class="text-brand-green">Recompensa</span>.
+                                                </h1>
+                                                <p class="mt-4 text-base md:text-lg text-gray-200">
+                                                    Junte-se à Recycle_me e descubra como suas ações sustentáveis geram descontos incríveis em parceiros locais.
+                                                </p>
+                                                <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+                                                    <a href="#como-funciona" class="px-6 sm:px-8 py-3 text-sm sm:text-base whitespace-nowrap rounded-full bg-brand-green text-white font-bold shadow-lg hover:scale-105 transform transition-all duration-300 btn-glow-green">Encontrar Pontos de Coleta</a>
+                                                    <a href="#" class="px-6 sm:px-8 py-3 text-sm sm:text-base whitespace-nowrap rounded-full bg-white text-brand-dark font-bold shadow-lg hover:scale-105 transform transition-transform">Cadastre-se</a>
+                                                </div>
+                                            </div>
+                                            <!-- Coluna da direita vazia para manter o layout -->
+                                            <div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Slide 2: Chamada para Cursos -->
+                                <div class="swiper-slide bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=2070&auto=format&fit=crop');">
+                                    <div class="bg-black bg-opacity-60 text-white w-full h-full flex flex-col justify-center items-center text-center p-8">
+                                        <div class="text-5xl md:text-6xl text-white mb-4"><i class="fas fa-graduation-cap"></i></div>
+                                        <h3 class="text-3xl md:text-4xl font-bold">Eleve seu Conhecimento Sustentável.</h3>
+                                        <p class="mt-2 text-gray-200 max-w-2xl">Aprenda com nossos especialistas a manusear materiais com segurança e otimizar sua reciclagem.</p>
+                                        <div class="mt-8">
+                                             <a href="#" class="px-6 sm:px-8 py-3 text-sm sm:text-base rounded-full bg-brand-green text-white font-bold shadow-lg hover:scale-105 transform transition-all duration-300 btn-glow-green whitespace-nowrap">Explorar Cursos Gratuitos</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Botões de Navegação Personalizados -->
+                        <div class="swiper-button-prev-custom swiper-button-custom"><i class="fas fa-chevron-left"></i></div>
+                        <div class="swiper-button-next-custom swiper-button-custom"><i class="fas fa-chevron-right"></i></div>
+                        <!-- Paginação Personalizada (corrigida) -->
+                        <div class="swiper-pagination-custom"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SEÇÃO CLUBE RECYCLE_ME -->
+            <section id="clube-recycleme" class="py-20 bg-brand-dark text-white dark:border-t dark:border-gray-700">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 dark:text-white">Mais que Pontos: Faça Parte do <span class="text-brand-green">Clube Recycle_me</span></h2>
+                    <p class="text-gray-300 mb-16 max-w-3xl mx-auto">Sua jornada de reciclagem é uma aventura. Acumule pontos, suba de nível, ganhe recompensas exclusivas e veja em tempo real o bem que você faz pelo planeta.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <div class="flex flex-col p-8 bg-gray-800 rounded-2xl fade-in-up transition-all duration-300 card-glow-green">
+                            <div class="flex-grow"><div class="text-5xl text-brand-green mb-4"><i class="fas fa-trophy"></i></div><h3 class="text-2xl font-bold mb-2">Suba de Nível</h3><p class="text-gray-400">Comece como <span class="font-bold text-white">Iniciante</span> e evolua até <span class="font-bold text-white">Mestre da Sustentabilidade</span>. Desbloqueie novos badges e benefícios.</p></div>
+                            <div class="mt-6"><a href="#" title="Requer login ou cadastro" class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gray-700 text-white font-semibold text-sm hover:bg-gray-600 transition-colors"><i class="fas fa-lock text-xs"></i>Meu Perfil</a></div>
+                        </div>
+                        <div class="flex flex-col p-8 bg-gray-800 rounded-2xl fade-in-up transition-all duration-300 card-glow-green" style="animation-delay: 0.1s;">
+                            <div class="flex-grow"><div class="text-5xl text-brand-green mb-4"><i class="fas fa-gift"></i></div><h3 class="text-2xl font-bold mb-2">Desbloqueie Recompensas</h3><p class="text-gray-400">Participe de <span class="font-bold text-white">missões semanais</span> e troque pontos por <span class="font-bold text-white">descontos reais</span> em supermercados e lojas parceiras.</p></div>
+                            <div class="mt-6"><a href="#" class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-brand-green text-white font-bold text-sm shadow-lg hover:scale-105 transform transition-all duration-300 btn-glow-green">Explorar Recompensas</a></div>
+                        </div>
+                        <div class="flex flex-col p-8 bg-gray-800 rounded-2xl fade-in-up transition-all duration-300 card-glow-green" style="animation-delay: 0.2s;">
+                            <div class="flex-grow"><div class="text-5xl text-brand-green mb-4"><i class="fas fa-chart-line"></i></div><h3 class="text-2xl font-bold mb-2">Veja seu Impacto</h3><p class="text-gray-400">Acompanhe a quantidade de água e energia que você ajudou a economizar. Veja sua pequena ação fazendo uma <span class="font-bold text-white">grande diferença</span>.</p></div>
+                            <div class="mt-6"><a href="#" title="Requer login ou cadastro" class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gray-700 text-white font-semibold text-sm hover:bg-gray-600 transition-colors"><i class="fas fa-lock text-xs"></i>Minhas Métricas</a></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção "Como Funciona" -->
+            <section id="como-funciona" class="bg-white dark:bg-gray-900 py-20 dark:border-t dark:border-gray-700">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-2 dark:text-white">Simples, Rápido e Gratificante</h2>
+                    <p class="text-gray-500 dark:text-gray-400 mb-12">Em 4 passos você já está ajudando o planeta e seu bolso.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                        <div class="p-8 bg-brand-cream dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
+                            <div class="text-4xl text-brand-text-green mb-4"><i class="fas fa-recycle"></i></div><h3 class="text-xl font-bold mb-2 dark:text-white">1. Separe</h3><p class="text-gray-600 dark:text-gray-400">Prepare seus recicláveis limpos e secos, seguindo nossas dicas.</p>
+                        </div>
+                        <a href="#" class="block p-8 bg-brand-cream dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
+                            <div class="text-4xl text-brand-text-green mb-4"><i class="fas fa-map-marker-alt"></i></div><h3 class="text-xl font-bold mb-2 dark:text-white">2. Encontre</h3><p class="text-gray-600 dark:text-gray-400">Use nosso mapa para encontrar o ponto de coleta mais próximo.</p><span class="mt-4 inline-block text-sm font-bold text-brand-text-green">Ver o Mapa →</span>
+                        </a>
+                        <div class="p-8 bg-brand-cream dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
+                            <div class="text-4xl text-brand-text-green mb-4"><i class="fas fa-qrcode"></i></div><h3 class="text-xl font-bold mb-2 dark:text-white">3. Escaneie</h3><p class="text-gray-600 dark:text-gray-400">Apresente seu QR Code no local para uma validação rápida.</p>
+                        </div>
+                        <div class="p-8 bg-brand-cream dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-2xl hover:scale-105 transform transition-all duration-300">
+                            <div class="text-4xl text-brand-text-green mb-4"><i class="fas fa-star"></i></div><h3 class="text-xl font-bold mb-2 dark:text-white">4. Ganhe</h3><p class="text-gray-600 dark:text-gray-400">Receba seus pontos na hora e comece a aproveitar os benefícios!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção "O que reciclar" -->
+            <section id="o-que-reciclar" class="py-20 bg-brand-cream dark:bg-brand-dark dark:border-t dark:border-gray-700">
+                <div class="container mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl md:text-4xl font-bold mb-2 dark:text-white">Prepare seus recicláveis</h2>
+                        <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">Siga nosso padrão de qualidade para agilizar o processo e garantir seus pontos.</p>
+                    </div>
+                    <div class="space-y-24">
+                        <div class="grid md:grid-cols-2 gap-12 items-center">
+                            <div><img src="https://placehold.co/500x400/A7F3D0/1F2937?text=Pl%C3%A1stico" alt="Ilustração de plásticos recicláveis limpos" class="rounded-2xl shadow-xl w-full"></div>
+                            <div>
+                                <div class="flex items-center gap-4 mb-4"><i class="fas fa-bottle-water text-3xl md:text-4xl text-brand-text-green"></i><h3 class="text-3xl md:text-4xl font-bold dark:text-white">Plástico</h3></div>
+                                <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">Aceitamos garrafas PET, embalagens de limpeza, potes de alimentos e outros plásticos rígidos.</p>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-3 border-b-2 border-brand-light-green pb-2 dark:text-white">Padrão de Qualidade</h4>
+                                    <ul class="list-none space-y-4 text-md text-gray-700 dark:text-gray-400 mt-4">
+                                        <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-3 mt-1 flex-shrink-0"></i> <span>Entregue **limpo e sem restos** de alimentos ou líquidos para evitar contaminação.</span></li>
+                                        <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-3 mt-1 flex-shrink-0"></i> <span>O material deve estar **seco** para não mofar e prejudicar o processo.</span></li>
+                                        <li class="flex items-start"><i class="fas fa-times-circle text-red-500 mr-3 mt-1 flex-shrink-0"></i> <span>**Não aceitamos** plásticos com resíduos orgânicos ou adesivos metalizados.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-12 items-center">
+                            <div class="md:order-last"><img src="https://placehold.co/500x400/A7F3D0/1F2937?text=Papel" alt="Ilustração de papéis e caixas de papelão limpos" class="rounded-2xl shadow-xl w-full"></div>
+                            <div>
+                                <div class="flex items-center gap-4 mb-4"><i class="fas fa-newspaper text-3xl md:text-4xl text-brand-text-green"></i><h3 class="text-3xl md:text-4xl font-bold dark:text-white">Papel</h3></div>
+                                <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">Jornais, revistas, caixas de papelão e folhas de sulfite são bem-vindos.</p>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-3 border-b-2 border-brand-light-green pb-2 dark:text-white">Padrão de Qualidade</h4>
+                                    <ul class="list-none space-y-4 text-md text-gray-700 dark:text-gray-400 mt-4">
+                                        <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-3 mt-1 flex-shrink-0"></i> <span>O material deve estar **seco e sem gordura**. Papel engordurado não pode ser reciclado.</span></li>
+                                        <li class="flex items-start"><i class="fas fa-times-circle text-red-500 mr-3 mt-1 flex-shrink-0"></i> <span>**Não aceitamos** papel higiênico, guardanapos, fotografias ou papel carbono.</span></li>
+                                        <li class="flex items-start"><i class="fas fa-times-circle text-red-500 mr-3 mt-1 flex-shrink-0"></i> <span>Retire **grampos, clipes e espirais** antes de descartar.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-12 items-center">
+                            <div><img src="https://placehold.co/500x400/A7F3D0/1F2937?text=Metal" alt="Ilustração de latas de alumínio e aço limpas" class="rounded-2xl shadow-xl w-full"></div>
+                            <div>
+                                <div class="flex items-center gap-4 mb-4"><i class="fas fa-dumpster text-3xl md:text-4xl text-brand-text-green"></i><h3 class="text-3xl md:text-4xl font-bold dark:text-white">Metal</h3></div>
+                                <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">Latas de alumínio (refrigerante, cerveja) e latas de aço (milho, ervilha).</p>
+                                 <div>
+                                    <h4 class="text-xl font-bold mb-3 border-b-2 border-brand-light-green pb-2 dark:text-white">Padrão de Qualidade</h4>
+                                    <ul class="list-none space-y-4 text-md text-gray-700 dark:text-gray-400 mt-4">
+                                        <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-3 mt-1 flex-shrink-0"></i> <span>Enxágue as latas para remover **restos de alimentos** e deixe-as secar.</span></li>
+                                        <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-3 mt-1 flex-shrink-0"></i> <span>**Amasse as latas** para otimizar o espaço de armazenamento e transporte.</span></li>
+                                        <li class="flex items-start"><i class="fas fa-times-circle text-red-500 mr-3 mt-1 flex-shrink-0"></i> <span>**Não aceitamos** clipes, esponjas de aço ou aerossóis.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-12 items-center">
+                            <div class="md:order-last"><img src="https://placehold.co/500x400/A7F3D0/1F2937?text=Vidro" alt="Ilustração de garrafas e potes de vidro limpos" class="rounded-2xl shadow-xl w-full"></div>
+                            <div>
+                                <div class="flex items-center gap-4 mb-4"><i class="fas fa-wine-bottle text-3xl md:text-4xl text-brand-text-green"></i><h3 class="text-3xl md:text-4xl font-bold dark:text-white">Vidro</h3></div>
+                                <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">Garrafas de bebidas, potes de alimentos (azeitona, palmito) e frascos em geral.</p>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-3 border-b-2 border-brand-light-green pb-2 dark:text-white">Padrão de Qualidade</h4>
+                                    <ul class="list-none space-y-4 text-md text-gray-700 dark:text-gray-400 mt-4">
+                                        <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mr-3 mt-1 flex-shrink-0"></i> <span>Entregue os itens **limpos, secos e sem tampas**.</span></li>
+                                        <li class="flex items-start"><i class="fas fa-exclamation-triangle text-yellow-500 mr-3 mt-1 flex-shrink-0"></i> <span>**Cuidado!** Por segurança, entregue os vidros **inteiros**, não quebrados.</span></li>
+                                         <li class="flex items-start"><i class="fas fa-times-circle text-red-500 mr-3 mt-1 flex-shrink-0"></i> <span>**Não aceitamos** espelhos, lâmpadas, porcelana ou cerâmica.</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seção Sobre Nós com fundo corrigido -->
+            <section id="sobre-nos" class="bg-white dark:bg-gray-900 py-20 dark:border-t dark:border-gray-700">
+                <div class="container mx-auto px-6">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div><img src="https://placehold.co/600x400/34D399/FFFFFF?text=Nossa+Miss%C3%A3o" alt="Equipe trabalhando em projeto de sustentabilidade" class="rounded-2xl shadow-xl"></div>
+                        <div class="text-center md:text-left">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-4 dark:text-white">Nossa Missão é Conectar para Transformar</h2>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">A Recycle_me nasceu de um projeto de TCC com o objetivo de criar uma solução tecnológica e acessível para o desafio da reciclagem. Acreditamos que, ao conectar pessoas engajadas, comércios locais e empresas parceiras, podemos construir um ecossistema onde a sustentabilidade é a maior recompensa.</p>
+                            <p class="text-gray-600 dark:text-gray-400">Cada garrafa plástica, cada folha de papel e cada lata de alumínio conta. Junte-se a nós nesse movimento!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="bg-brand-dark text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                <div><h3 class="text-lg font-bold mb-4">♻️ RECYCLE_ME</h3><p class="text-gray-400">Reciclando o presente, garantindo o futuro.</p></div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Links Rápidos</h3>
+                    <ul class="space-y-2"><li><a href="#clube-recycleme" class="text-gray-400 hover:text-white transition-colors">O Clube</a></li><li><a href="#" class="text-gray-400 hover:text-white transition-colors">Seja um Parceiro</a></li><li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contato</a></li></ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Siga-nos</h3>
+                    <div class="flex justify-center md:justify-start gap-4 text-2xl"><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-facebook"></i></a><a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-linkedin"></i></a></div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-500"><p>&copy; 2025 Recycle_me. Todos os direitos reservados. Projeto de TCC.</p></div>
+        </div>
+    </footer>
+
+    <!-- Botão e Painel de Acessibilidade (Fora do Wrapper) -->
+     <button id="back-to-top-button" title="Voltar ao topo" class="hidden fixed bottom-20 right-5 z-[60] w-14 h-14 bg-brand-dark/80 backdrop-blur-sm text-white rounded-full shadow-lg flex items-center justify-center text-xl hover:bg-gray-700 transition-all">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <button id="accessibility-button" title="Abrir menu de acessibilidade" class="fixed bottom-5 right-5 z-[60] w-14 h-14 bg-brand-dark text-white rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-gray-700 transition-colors">
+        <i class="fas fa-universal-access"></i>
+    </button>
+    <div id="accessibility-panel" class="hidden fixed bottom-24 right-5 z-[60] bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 w-64 overflow-hidden">
+        <div class="flex justify-between items-center p-3 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="font-bold text-md text-brand-dark dark:text-white">Acessibilidade</h3>
+            <button id="close-accessibility-panel" title="Fechar menu" class="text-gray-500 hover:text-brand-dark dark:hover:text-white"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="p-4 space-y-4">
+            <button id="reading-mode-button" class="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <i class="fas fa-book-open text-brand-text-green"></i><span class="text-brand-dark dark:text-gray-200">Modo Leitura</span>
+            </button>
+            <div class="flex items-center justify-around p-2 bg-gray-100 dark:bg-gray-900 rounded-lg">
+                <button id="light-mode-button" title="Modo Claro" class="p-2 rounded-full"><i class="fas fa-sun"></i></button>
+                <button id="auto-mode-button" title="Automático (Sistema)" class="p-2 rounded-full"><i class="fas fa-desktop"></i></button>
+                <button id="dark-mode-button" title="Modo Escuro" class="p-2 rounded-full"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scripts de Inicialização -->
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        // ... (código do Swiper e menu mobile sem alterações) ...
+        var swiper = new Swiper('.swiper-container', {
+            loop: true,
+            autoplay: { delay: 7000, disableOnInteraction: false },
+            pagination: { el: '.swiper-pagination-custom', clickable: true },
+            navigation: { nextEl: '.swiper-button-next-custom', prevEl: '.swiper-button-prev-custom' },
+        });
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+        
+        // --- LÓGICA DE ACESSIBILIDADE ATUALIZADA ---
+        const accessibilityButton = document.getElementById('accessibility-button');
+        const accessibilityPanel = document.getElementById('accessibility-panel');
+        const closeAccessibilityPanel = document.getElementById('close-accessibility-panel');
+        const readingModeButton = document.getElementById('reading-mode-button');
+        const lightModeButton = document.getElementById('light-mode-button');
+        const autoModeButton = document.getElementById('auto-mode-button');
+        const darkModeButton = document.getElementById('dark-mode-button');
+        const pageWrapper = document.getElementById('page-wrapper'); // <-- Alvo para o modo leitura
+        const backToTopButton = document.getElementById('back-to-top-button');
+
+        accessibilityButton.addEventListener('click', () => accessibilityPanel.classList.toggle('hidden'));
+        closeAccessibilityPanel.addEventListener('click', () => accessibilityPanel.classList.add('hidden'));
+
+        readingModeButton.addEventListener('click', () => {
+            pageWrapper.classList.toggle('reading-mode'); // <-- Aplica no wrapper
+            localStorage.setItem('readingMode', pageWrapper.classList.contains('reading-mode') ? 'enabled' : 'disabled');
+        });
+        if (localStorage.getItem('readingMode') === 'enabled') { pageWrapper.classList.add('reading-mode'); }
+
+        // Lógica do Tema (Claro/Escuro/Auto)
+        const htmlElement = document.documentElement;
+        const updateThemeButtons = (activeMode) => {
+            [lightModeButton, autoModeButton, darkModeButton].forEach(button => {
+                button.classList.remove('bg-brand-green', 'text-white');
+            });
+            if (activeMode === 'light') lightModeButton.classList.add('bg-brand-green', 'text-white');
+            else if (activeMode === 'dark') darkModeButton.classList.add('bg-brand-green', 'text-white');
+            else autoModeButton.classList.add('bg-brand-green', 'text-white');
+        };
+        
+        const applyTheme = (theme) => {
+            if (theme === 'auto') {
+                localStorage.removeItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                htmlElement.classList.toggle('dark', prefersDark);
+                updateThemeButtons('auto');
+            } else {
+                localStorage.setItem('theme', theme);
+                htmlElement.classList.toggle('dark', theme === 'dark');
+                updateThemeButtons(theme);
+            }
+        };
+
+        lightModeButton.addEventListener('click', () => applyTheme('light'));
+        darkModeButton.addEventListener('click', () => applyTheme('dark'));
+        autoModeButton.addEventListener('click', () => applyTheme('auto'));
+        
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('theme')) {
+                applyTheme('auto');
+            }
+        });
+
+        const initTheme = () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else {
+                applyTheme('auto');
+            }
+        };
+        initTheme();
+
+        // --- NOVO SCRIPT PARA NAVEGAÇÃO ATIVA (SCROLL SPY) ---
+        const sections = document.querySelectorAll('main section[id]');
+        const navLinks = document.querySelectorAll('#main-nav a.nav-link');
+
+        const activateLink = (id) => {
+            navLinks.forEach(link => {
+                link.classList.remove('active-link');
+                if (link.getAttribute('href') === '#' + id) {
+                    link.classList.add('active-link');
+                }
+            });
+        };
+
+        const observerOptions = { root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { activateLink(entry.target.id); }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => { sectionObserver.observe(section); });
+
+        // --- SCRIPT PARA NAVEGAÇÃO POR TECLADO E BOTÃO "VOLTAR AO TOPO" ---
+        const keysPressed = {};
+        
+        // Botão Voltar ao Topo
+        window.onscroll = () => {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopButton.classList.remove('hidden');
+            } else {
+                backToTopButton.classList.add('hidden');
+            }
+        };
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') { return; }
+
+            keysPressed[e.key.toLowerCase()] = true;
+
+            if (keysPressed[' '] && keysPressed['t']) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return; 
+            }
+
+            switch(e.key) {
+                case ' ':
+                    if(!keysPressed['t']) { // Garante que não role para baixo se 't' também estiver pressionado
+                        e.preventDefault();
+                        window.scrollBy({ top: window.innerHeight * 0.8, left: 0, behavior: 'smooth' });
+                    }
+                    break;
+                case '1': document.getElementById('clube-recycleme').scrollIntoView(); break;
+                case '2': document.getElementById('como-funciona').scrollIntoView(); break;
+                case '3': document.getElementById('o-que-reciclar').scrollIntoView(); break;
+                case '4': document.getElementById('sobre-nos').scrollIntoView(); break;
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            delete keysPressed[e.key.toLowerCase()];
+        });
+
+        // --- NOVA LÓGICA PARA TRADUTOR CUSTOMIZADO ---
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({pageLanguage: 'pt', includedLanguages: 'en,es,fr,pt', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false}, 'google_translate_element');
+        }
+
+        const languageButton = document.getElementById('language-button');
+        const languageMenu = document.getElementById('language-menu');
+        const languageSwitcher = document.getElementById('language-switcher');
+
+        languageButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.lang-option').forEach(item => {
+            item.addEventListener('click', event => {
+                event.preventDefault();
+                const lang = item.getAttribute('data-lang');
+                const googleSelect = document.querySelector('.goog-te-combo');
+                if (googleSelect) {
+                    googleSelect.value = lang;
+                    googleSelect.dispatchEvent(new Event('change'));
+                }
+                languageMenu.classList.add('hidden');
+            });
+        });
+
+        // Fecha menus se clicar fora
+        document.addEventListener('click', (e) => {
+            if (languageSwitcher && !languageSwitcher.contains(e.target)) {
+                languageMenu.classList.add('hidden');
+            }
+            if(accessibilityButton && !accessibilityButton.contains(e.target) && accessibilityPanel && !accessibilityPanel.contains(e.target)) {
+                accessibilityPanel.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,28 @@
+ html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFAF6; /* Um branco-gelo mais suave */
+        }
+
+        .header-gradient {
+            background-color: #F3EEE8; /* Usando a cor 'brand-cream' */
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
